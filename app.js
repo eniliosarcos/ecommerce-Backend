@@ -6,17 +6,6 @@ const logger = require('morgan');
 const cors = require('cors');
 const app = express();
 
-//import routes
-const productRoute = require('./routes/products');
-const usersRoute = require('./routes/users');
-
-
-//use routes
-app.use('/api/products', productRoute);
-app.use('/api/users', usersRoute);
-
-
-
 app.use(cors({
   origin: "*",
   methods: ['GET', 'POST', 'PATCH', 'DELETE', 'PUT'],
@@ -32,6 +21,16 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+//import routes
+const productRoute = require('./routes/products');
+const usersRoute = require('./routes/orders');
+
+
+//use routes
+app.use('/api/products', productRoute);
+app.use('/api/orders', usersRoute);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
