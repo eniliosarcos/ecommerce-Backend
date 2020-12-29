@@ -4,8 +4,8 @@ const {database} = require('../config/helpers')
 
 /* GET ALL PRODUCTS. */
 router.get('/', function(req, res) {
-  let page = (req.query.page != undefined && req.query.page != 0) ? req.query.page : 1; // set the current page number
-  const limit = (req.query.limit != undefined && req.query.limit != 0) ? req.query.limit : 10; // set the limit of items per page
+  let page = (req.query.page !== undefined && req.query.page !== 0) ? req.query.page : 1; // set the current page number
+  const limit = (req.query.limit !== undefined && req.query.limit !== 0) ? req.query.limit : 10; // set the limit of items per page
 
   let startvalue;
   let endValue;
@@ -77,7 +77,7 @@ router.get('/:prodId',(req, res) => {
     // .slice(startvalue, endValue)
     // .sort({id: .1})
     .filter({'p.id' : productId})
-    .get ()
+    .get()
     .then(prod => {
 
       if(prod){
@@ -93,8 +93,8 @@ router.get('/:prodId',(req, res) => {
 
 router.get('/category/:catName', (req, res) =>{
 
-  let page = (req.query.page != undefined && req.query.page != 0) ? req.query.page : 1; // set the current page number
-  const limit = (req.query.limit != undefined && req.query.limit != 0) ? req.query.limit : 10; // set the limit of items per page
+  let page = (req.query.page !== undefined && req.query.page !== 0) ? req.query.page : 1; // set the current page number
+  const limit = (req.query.limit !== undefined && req.query.limit !== 0) ? req.query.limit : 10; // set the limit of items per page
 
   let startvalue;
   let endValue;

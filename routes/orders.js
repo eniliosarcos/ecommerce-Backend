@@ -37,10 +37,10 @@ router.get('/', (req, res) => {
 });
 
 //get single order
-router.get('/:id', (req,res) => {
+router.get('/:id', async (req,res) => {
 
 
-  const orderId = req.params.id;
+  let orderId = req.params.id;
 
   database.table('orders_details as od')
   .join([
@@ -57,14 +57,14 @@ router.get('/:id', (req,res) => {
       on: 'u.id = o.user_id'
     }
   ])
-  .withFields(['o.id', 'p.title as name', 'p.description', 'p.price', 'u.username', 'p.image', 'od.quantity as quantityOrdered'])
+  .withFields(['o.id', 'p.title', 'p.description', 'p.price', 'u.username', 'p.image', 'od.quantity as quantityOrdered'])
   .filter({'o.id': orderId})
   .getAll()
   .then(orders =>{
 
     if(orders.length > 0){
 
-      res.status(200).json(orders);
+      res.json(orders);
 
     } else {
       res.json({message: `No Orders found with orderId ${orderId}`});
@@ -74,18 +74,17 @@ router.get('/:id', (req,res) => {
 });
 
 // place a new order
-router.post('/new', (req,res) =>{
+router.post('/new', async (req,res) =>{
 
   let {userId, products} = req.body;
 
-  if(userId != null && userId > 0 && !isNaN(userId))
+  if(userId !== null && userId > 0)
   {
     database.table('orders')
     .insert({
 
       user_id: userId
-    })
-    .then(newOrderId =>{
+    }).then(newOrderId =>{
        
       if(newOrderId > 0) {
 
@@ -124,7 +123,9 @@ router.post('/new', (req,res) =>{
             .update({
 
               quantity: data.quantity
-            }).then(successNum =>{}).catch(err => console.log(err))
+            }).then(successNum =>{
+              
+            }).catch(err => console.log(err))
           }).catch(err => console.log(err));
 
         });
